@@ -3,7 +3,7 @@ class nagios {
 
 	define nagios-nrpe::whitelist($whitelist = false) {
 		$t_whitelist = $whitelist ? {
-			false   => "127.0.0.1",
+			false   => ["127.0.0.1"],
 			default => $whitelist,
 		}
 
@@ -19,7 +19,7 @@ class nagios {
 	}
 
 	nagios-nrpe::whitelist { "/etc/nagios/nrpe.cfg":
-		whitelist => hiera('whitelist'),
+		whitelist => hiera_array('whitelist'),
 	}
 
 	file { "/etc/nagios/nrpe.d":
