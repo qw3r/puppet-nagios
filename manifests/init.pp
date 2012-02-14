@@ -7,33 +7,14 @@ class nagios {
 			default => $whitelist,
 		}
 
-		if $::lsbdistcodename == "lenny" {
-			file { "$name":
-				owner   => root,
-				group   => root,
-				mode    => 0644,
-				alias   => "nrpe.cfg",
-				notify  => Service["nagios-nrpe-server"],
-				content => template("nagios/${::lsbdistcodename}/etc/nagios/nrpe.cfg.erb"),
-				require => Package["nagios-nrpe-server"],
-			}
-
-			file { "/var/run/nagios":
-				ensure => directory,
-				owner  => nagios,
-				group  => root,
-				mode   => 0755,
-			}
-		} else {
-			file { "$name":
-				owner   => root,
-				group   => root,
-				mode    => 0644,
-				alias   => "nrpe.cfg",
-				notify  => Service["nagios-nrpe-server"],
-				content => template("nagios/common/etc/nagios/nrpe.cfg.erb"),
-				require => Package["nagios-nrpe-server"],
-			}
+		file { "$name":
+			owner   => root,
+			group   => root,
+			mode    => 0644,
+			alias   => "nrpe.cfg",
+			notify  => Service["nagios-nrpe-server"],
+			content => template("nagios/etc/nagios/nrpe.cfg.erb"),
+			require => Package["nagios-nrpe-server"],
 		}
 	}
 
@@ -49,7 +30,7 @@ class nagios {
 		group   => root,
 		mode    => 0644,
 		notify  => Service["nagios-nrpe-server"],
-		source  => "puppet:///modules/nagios/common/etc/nagios/nrpe.d",
+		source  => "puppet:///modules/nagios/etc/nagios/nrpe.d",
 		require => Package["nagios-nrpe-server"],
 	}
 
@@ -60,7 +41,7 @@ class nagios {
 		owner   => root,
 		group   => staff,
 		mode    => 0755,
-		source  => "puppet:///modules/nagios/common/usr/local/lib/nagios",
+		source  => "puppet:///modules/nagios/usr/local/lib/nagios",
 	}
 
 	package { [
@@ -69,12 +50,6 @@ class nagios {
 		"nagios-plugins-basic",
 		"nagios-plugins-standard" ]:
 		ensure => present,
-	}
-
-	if $::lsbdistcodename == "lenny" {
-		package { "ruby":
-			ensure => present,
-		}
 	}
 
 	service { "nagios-nrpe-server":
@@ -89,5 +64,3 @@ class nagios {
 		],
 	}
 }
-
-# vim: tabstop=3

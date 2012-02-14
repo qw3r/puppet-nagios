@@ -24,7 +24,7 @@ class nagios::master inherits nagios {
 		mode    => 0644,
 		alias   => "configs",
 		notify  => Service["nagios3"],
-		source  => "puppet:///modules/nagios/${::lsbdistcodename}/etc/nagios3",
+		source  => "puppet:///modules/nagios/etc/nagios3",
 		require => Package["nagios3"],
 	}
 
@@ -33,7 +33,7 @@ class nagios::master inherits nagios {
 		owner   => root,
 		group   => root,
 		mode    => 0644,
-		content => template("nagios/common/etc/nagios3/htpasswd.users.erb"),
+		content => template("nagios/etc/nagios3/htpasswd.users.erb"),
 		require => Package["nagios3"],
 	}
 
@@ -44,7 +44,7 @@ class nagios::master inherits nagios {
 		mode    => 0644,
 		alias   => "conf.d",
 		notify  => Service["nagios3"],
-		source  => "puppet:///modules/nagios/common/etc/nagios3/conf.d",
+		source  => "puppet:///modules/nagios/etc/nagios3/conf.d",
 		require => Package["nagios3"],
 	}
 
@@ -111,4 +111,3 @@ class nagios::master inherits nagios {
 	}
 }
 
-# vim: tabstop=3
