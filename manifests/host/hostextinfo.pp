@@ -8,7 +8,7 @@ define nagios::host::hostextinfo() {
 		icon_image_alt  => $::lsbdistid,
 		statusmap_image => "base/${distro}.gd2",
 		vrml_image      => "${distro}.png",
-		target          => "/etc/nagios3/conf.d/${::hostname}_hostextinfo.cfg",
+		target          => "/etc/nagios3/conf.d/${::fqdn}_hostextinfo.cfg",
 	}
 }
 

@@ -1,7 +1,7 @@
 class nagios::common {
-	nagios::host::hosts { "$::hostname": }
+	nagios::host::hosts { "$::fqdn": }
 
-	nagios::host::hostextinfo { "$::hostname": }
+	nagios::host::hostextinfo { "$::fqdn": }
 
 	if $::virtual == "physical" {
 		$a_disks = split($::disks, ",")
